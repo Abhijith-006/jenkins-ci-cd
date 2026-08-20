@@ -1,36 +1,53 @@
-import math
+# Banking Loan Approval System
 
-customer_id = input("Customer ID: ")
-age = int(input("Age: "))
-salary = float(input("Monthly Salary: "))
-existing = float(input("Existing Loan Amount: "))
-credit = int(input("Credit Score: "))
-employment = input("Employment Type: ")
-loan = float(input("Requested Loan Amount: "))
-years = int(input("Loan Tenure (years): "))
+customer_id = "C101"
+age = 30
+salary = 50000
+existing_loan = 10000
+credit_score = 750
+employment = "Government"
+requested_loan = 300000
+tenure = 5
 
-dti = (existing / salary) * 100
-eligible = salary * 20
+# Debt-to-income ratio
+dti = (existing_loan / salary) * 100
 
-if credit >= 750:
- rate = 8
-elif credit >= 650:
- rate = 10
+# Eligible loan
+eligible_loan = salary * 10
+
+# Interest rate
+if credit_score >= 750:
+    interest_rate = 8
+elif credit_score >= 650:
+    interest_rate = 10
 else:
- rate = 13
+    interest_rate = 14
 
-months = years * 12
-r = rate / 1200
-emi = loan * r * (1 + r) ** months / ((1 + r) ** months - 1)
+# EMI
+monthly_rate = interest_rate / (12 * 100)
+months = tenure * 12
 
-approved = (21 <= age <= 60 and salary > 0 and
- credit >= 650 and dti <= 40 and loan <= eligible)
+emi = (requested_loan * monthly_rate *
+       (1 + monthly_rate) ** months) / \
+      ((1 + monthly_rate) ** months - 1)
 
-print("\n--- LOAN RESULT ---")
+# Approval
+if credit_score >= 650 and dti <= 40 and requested_loan <= eligible_loan:
+    status = "APPROVED"
+else:
+    status = "REJECTED"
+
+print("BANKING LOAN APPROVAL")
+print("----------------------")
 print("Customer ID:", customer_id)
+print("Age:", age)
+print("Salary:", salary)
+print("Existing Loan:", existing_loan)
+print("Credit Score:", credit_score)
 print("Employment:", employment)
+print("Requested Loan:", requested_loan)
 print("DTI:", round(dti, 2), "%")
-print("Eligible Amount:", round(eligible, 2))
-print("Interest Rate:", rate, "%")
+print("Eligible Loan:", eligible_loan)
+print("Interest Rate:", interest_rate, "%")
 print("EMI:", round(emi, 2))
-print("Status:", "APPROVED" if approved else "REJECTED")
+print("Status:", status)
